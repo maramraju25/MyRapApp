@@ -1,0 +1,31 @@
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: zrkrapapp1
+type: application
+builder:
+  customTasks:
+    - name: ui5-tooling-transpile-task
+      afterTask: replaceVersion
+      configuration:
+        debug: true
+        transformModulesToUI5:
+          overridesToOverride: true
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          destination: abap-cloud-default_abap-trial-86b0f502trial-dev
+          url: https://11b69711-9bcb-491b-b504-a9ba7e4b7e97.abap.us10.hana.ondemand.com/
+          scp: true
+        app:
+          name: RK_BOOKING
+          package: ZRK_RAP_APP1
+          transport: TRLK901448
+        exclude:
+          - /test/
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
